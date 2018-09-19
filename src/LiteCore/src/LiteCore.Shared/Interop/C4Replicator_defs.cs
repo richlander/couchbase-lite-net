@@ -52,6 +52,12 @@ namespace LiteCore.Interop
         Busy
     }
 
+    enum C4ReplicatorOptionProgressLevel : int
+    {
+        Overall,
+        PerDocument
+    }
+
     internal unsafe partial struct C4ReplicatorParameters
     {
         public C4ReplicatorMode push;
@@ -74,7 +80,18 @@ namespace LiteCore.Interop
         public ulong documentCount;
     }
 
-	internal unsafe struct C4Replicator
+    unsafe struct C4BlobProgress
+    {
+        public string dirPath; //Dir path - Not sure if this is right
+        public FLSlice docID;
+        public FLSlice docProperty;
+        public C4BlobKey key;
+        public ulong bytesCompleted;
+        public ulong bytesTotal;
+        public C4Error error;
+    };
+
+    internal unsafe struct C4Replicator
     {
     }
 

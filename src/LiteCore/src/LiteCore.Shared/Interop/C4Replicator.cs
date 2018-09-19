@@ -38,7 +38,7 @@ namespace LiteCore.Interop
             FLDict* body, void* context);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal unsafe delegate void C4ReplicatorDocumentErrorCallback(C4Replicator* replicator,
+    internal unsafe delegate void C4ReplicatorDocumentEndedCallback(C4Replicator* replicator,
             [MarshalAs(UnmanagedType.U1)]bool pushing, FLSlice docID, C4Error error, 
             [MarshalAs(UnmanagedType.U1)]bool transient, void* context);
 
@@ -57,10 +57,11 @@ namespace Couchbase.Lite.Interop
     internal sealed class ReplicatorParameters : IDisposable
     {
         private C4ReplicatorParameters _c4Params;
+        private C4ReplicatorBlobProgressCallback _onBlobProgressUpdated;
         private C4ReplicatorStatusChangedCallback _onStatusChanged;
-        private C4ReplicatorDocumentErrorCallback _onDocumentError;
         private C4ReplicatorBlobProgressCallback _onBlobProgress;
         private C4ReplicatorPushFilterFunction _pushFilter;
+        private C4ReplicatorDocumentEndedCallback _onDocumentEnded;
 
         public C4ReplicatorParameters C4Params => _c4Params;
 
@@ -83,6 +84,15 @@ namespace Couchbase.Lite.Interop
             set => _c4Params.pull = value;
         }
 
+        public C4ReplicatorBlobProgressCallback OnBlobProgressUpdated
+        {
+            get => _onBlobProgressUpdated;
+            set {
+                _onBlobProgressUpdated = value;
+                _c4Params.onBlobProgress = Marshal.GetFunctionPointerForDelegate(value);
+            }
+        }
+
         public C4ReplicatorStatusChangedCallback OnStatusChanged
         {
             get => _onStatusChanged;
@@ -92,11 +102,11 @@ namespace Couchbase.Lite.Interop
             }
         }
 
-        public C4ReplicatorDocumentErrorCallback OnDocumentEnded
+        public C4ReplicatorDocumentEndedCallback OnDocumentEnded
         {
-            get => _onDocumentError;
+            get => _onDocumentEnded;
             set {
-                _onDocumentError = value;
+                _onDocumentEnded = value;
                 _c4Params.onDocumentEnded = Marshal.GetFunctionPointerForDelegate(value);
             }
         }
