@@ -84,7 +84,7 @@ namespace Couchbase.Lite.Interop
             set => _c4Params.pull = value;
         }
 
-        public C4ReplicatorBlobProgressCallback OnBlobProgressUpdated
+        public C4ReplicatorBlobProgressCallback OnBlobProgress
         {
             get => _onBlobProgressUpdated;
             set {
