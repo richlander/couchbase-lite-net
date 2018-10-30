@@ -57,7 +57,6 @@ namespace Couchbase.Lite.Interop
     internal sealed class ReplicatorParameters : IDisposable
     {
         private C4ReplicatorParameters _c4Params;
-        private C4ReplicatorBlobProgressCallback _onBlobProgressUpdated;
         private C4ReplicatorStatusChangedCallback _onStatusChanged;
         private C4ReplicatorBlobProgressCallback _onBlobProgress;
         private C4ReplicatorPushFilterFunction _pushFilter;
@@ -82,15 +81,6 @@ namespace Couchbase.Lite.Interop
         {
             get => _c4Params.pull;
             set => _c4Params.pull = value;
-        }
-
-        public C4ReplicatorBlobProgressCallback OnBlobProgress
-        {
-            get => _onBlobProgressUpdated;
-            set {
-                _onBlobProgressUpdated = value;
-                _c4Params.onBlobProgress = Marshal.GetFunctionPointerForDelegate(value);
-            }
         }
 
         public C4ReplicatorStatusChangedCallback OnStatusChanged

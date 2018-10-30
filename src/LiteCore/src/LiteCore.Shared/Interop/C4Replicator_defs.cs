@@ -76,7 +76,7 @@ namespace LiteCore.Interop
 
     unsafe struct C4DocumentReplicatedStatus
     {
-        public C4Slice docID;
+        public FLSlice docID;
         public C4Error error;
         public bool pushing;
     }

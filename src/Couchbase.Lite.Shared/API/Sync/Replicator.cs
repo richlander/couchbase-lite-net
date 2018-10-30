@@ -347,7 +347,7 @@ namespace Couchbase.Lite.Sync
         }
 
         [MonoPInvokeCallback(typeof(C4ReplicatorBlobProgressCallback))]
-        private static void BlobProgressCallback(C4Replicator* repl, bool pushing, C4Slice docID, C4Slice docProperty, C4BlobKey blobKey, 
+        private static void BlobProgressCallback(C4Replicator* repl, bool pushing, FLSlice docID, FLSlice docProperty, C4BlobKey blobKey, 
             ulong bytesComplete, ulong bytesTotal, C4Error error, void* context)
         {
             var blobProgress = new BlobProgress(pushing, docID.CreateString() ?? "", bytesComplete, bytesTotal);
